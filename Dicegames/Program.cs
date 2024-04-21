@@ -34,7 +34,6 @@ public class sevens_out
         die_2 = Die_2;
     }
 
-    // if a double is rolled then double the sum total
     public int play_game()
     {
         int roll_total = 0;
@@ -65,7 +64,6 @@ public class sevens_out
             {
                 Console.WriteLine($"You reached a total of {roll_total}. You're the winner!");
 
-                // Update high score if current total is higher
                 if (roll_total > Statistics.sevens_out_high_score)
                 {
                     Statistics.sevens_out_high_score = roll_total;
@@ -93,11 +91,11 @@ public class three_or_more
 
     public int play_game()
     {
-        int rollCount = 0;
+        int roll_count = 0;
 
         while (total_score < 20)
         {
-            Console.WriteLine($"Roll {++rollCount}:");
+            Console.WriteLine($"Roll {++roll_count}:");
             int[] rolls = roll_all_dice();
             int score = calculate_score(rolls);
 
