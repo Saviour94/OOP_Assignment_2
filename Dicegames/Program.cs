@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 // Starting with dice class for a single die, randum number generator for the roll function which is assigned to current_roll
+// both games will inherit from Die and Roll for their functionality
 
 public class Die
 {
@@ -63,6 +64,13 @@ public class sevens_out
             else if (roll_total >= 500)
             {
                 Console.WriteLine($"You reached a total of {roll_total}. You're the winner!");
+
+                // Update high score if current total is higher
+                if (roll_total > Statistics.sevens_out_high_score)
+                {
+                    Statistics.sevens_out_high_score = roll_total;
+                }
+
                 break;
             }
         }
@@ -101,6 +109,13 @@ public class three_or_more
             if (total_score >= 20)
             {
                 Console.WriteLine($"You reached a total score of {total_score}. Game over!");
+
+               
+                if (total_score > Statistics.three_or_more_high_score)
+                {
+                    Statistics.three_or_more_high_score = total_score;
+                }
+
                 break;
             }
 
@@ -167,12 +182,13 @@ public class three_or_more
     }
 }
 
-
-// Staticss class to track games played
+// Staticss class which accesses and displays the stored games played and high scores from both games
 public class Statistics
 {
     public int sevens_out_plays { get; private set; }
     public int three_or_more_plays { get; private set; }
+    public static int sevens_out_high_score { get; set; }
+    public static int three_or_more_high_score { get; set; }
 
     public void record_sevens_out()
     {
@@ -185,8 +201,8 @@ public class Statistics
     }
 }
 
-// Play class contains the game menu allowing the player to choose between games, stats or the testing class
-// Input validation added to ensure error handling in the menu phase
+// play game class contains the game menu allowing the player to choose between games, stats or the testing class
+// input validation added to ensure error handling in the menu input
 public class play_game
 {
     private Die[] Dice;
@@ -220,13 +236,13 @@ public class play_game
                 Console.WriteLine("Invalid selection. Please choose a valid option (1-4).");
                 continue;
             }
-            break; 
+            break;
         }
 
         switch (choice)
         {
             default:
-                Console.WriteLine("Invalid selection. Please choose a different option.");
+                Console.WriteLine("Valid input, enjoy!");
                 break;
         }
 
@@ -245,6 +261,8 @@ public class play_game
             case 3:
                 Console.WriteLine($"Sevens Out plays: {Stats.sevens_out_plays}");
                 Console.WriteLine($"Three or More plays: {Stats.three_or_more_plays}");
+                Console.WriteLine($"Sevens Out High Score: {Statistics.sevens_out_high_score}");
+                Console.WriteLine($"Three or More High Score: {Statistics.three_or_more_high_score}");
                 break;
             case 4:
                 Testing.test_game();
@@ -257,7 +275,7 @@ public class play_game
 }
 
 // Testing class checks that the particular rules of the games are behaving as intended
-// tests that three or more 
+// tests that the three or more game does in fact end when the score hits 20 or above
 public static class Testing
 {
     public static void test_game()
@@ -268,7 +286,7 @@ public static class Testing
             dice[i] = new Die();
         }
         Debug.Assert(test_three_or_more(dice) >= 20);
-        Console.WriteLine("Passed the tests!");
+        Console.WriteLine("You passed the test, congrats!");
     }
 
     private static int test_three_or_more(Die[] dice)
@@ -300,5 +318,6 @@ public class Program
         }
     }
 }
+
 
 
